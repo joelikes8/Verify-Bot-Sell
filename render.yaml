@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: discord-verification-bot
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false # User needs to provide this
+      - key: DISCORD_TOKEN
+        sync: false # User needs to provide this
+      - key: DISCORD_CLIENT_ID
+        sync: false # User needs to provide this
+      - key: ROBLOX_COOKIE
+        sync: false # Optional, user can provide this for enhanced verification
+    autoDeploy: true
+
+databases:
+  - name: discord-bot-db
+    plan: free
+    databaseName: verification
+    user: verification_user
