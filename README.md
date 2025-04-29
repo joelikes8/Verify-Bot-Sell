@@ -1,70 +1,104 @@
-# Discord Roblox Verification Bot
+# Verify Bot
 
-A Discord bot designed for efficient Roblox user verification and role management, leveraging PostgreSQL for persistent data storage and seamless server integration.
+A robust Discord bot for Roblox user verification, designed to provide comprehensive and flexible authentication for Discord servers integrating with Roblox.
 
-## Features
+## Key Features
 
-- **Multi-method Verification**: Uses four different approaches to verify Roblox profiles
-- **Role Management**: Automatically assigns roles to verified users
-- **Server Configuration**: Customize verification settings per Discord server
-- **Logs & Tracking**: Keep track of verification activity
-- **Nickname Syncing**: Updates Discord nickname to match Roblox username
-
-## How It Works
-
-1. User runs `/verify` command with their Roblox username
-2. Bot generates a unique verification code
-3. User adds this code to their Roblox profile description
-4. User runs `/status` to check verification
-5. Bot uses multiple methods to find the code in the profile:
-   - Official Roblox API
-   - Profile info API
-   - HTML profile scraping
-   - Authenticated API access (with Roblox cookie)
-6. Upon success, bot assigns roles and updates nickname
+- TypeScript-based Discord bot
+- Advanced Roblox API integration with multiple fallback methods
+- Multi-method username verification
+- Flexible authentication strategies
+- Comprehensive error handling and user guidance
+- Server approval system for controlled access
 
 ## Commands
 
-- `/verify [roblox-username]` - Start verification process
-- `/status` - Check verification status or complete verification
-- `/help` - Display help information
-- `/update` - Update your verification if you changed Roblox username
-- `/config` - Configure server settings (admin only)
-- `/logs` - View verification logs (admin only)
-- `/reverify` - Force a user to reverify (admin only)
-- `/setup-verification` - Quick setup for server verification (admin only)
+- `/verify [username]` - Verify your Discord account with your Roblox account
+- `/update` - Update your nickname to match your current Roblox username
+- `/reverify [username]` - Change the Roblox account linked to your Discord
+- `/allowid [server_id]` - (Admin only) Allow a server to use this bot
+- `/disallowid [server_id]` - (Admin only) Revoke a server's access to this bot
 
-## Setup
+## Setup Instructions
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+### Prerequisites
 
-## Improvements
+- Node.js 18+
+- PostgreSQL database
+- Discord bot token
+- Roblox cookie for API authentication
 
-### Enhanced Verification Process
-- Multiple profile checking methods for reliability
-- Stores and checks the specific Roblox username provided
-- Uses authenticated API access when available
+### Environment Variables
 
-### Fallback Mechanisms
-- If the primary API fails, tries alternative API endpoints
-- HTML scraping as last resort for private profiles
-- Flexible matching for verification codes with different formats
+Create a `.env` file with the following variables:
 
-### Quality of Life
-- Automatically updates Discord nickname to match Roblox username
-- Detailed logging for verification tracking
-- Optional DM notifications on successful verification
+```
+DATABASE_URL=postgresql://username:password@host:port/database
+DISCORD_BOT_TOKEN=your_discord_bot_token
+ROBLOX_COOKIE=your_roblox_cookie
+ADMIN_USER_ID=your_discord_user_id
+```
+
+### Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/joelikes8/Verify-bot.git
+   cd Verify-bot
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   ```
+
+3. Set up the database:
+   ```
+   npm run db:push
+   ```
+
+4. Build the application:
+   ```
+   npm run build
+   ```
+
+5. Start the bot:
+   ```
+   npm start
+   ```
 
 ## Deployment
 
-This bot can be deployed on any Node.js hosting service. We recommend using Render for easy setup with the included `render.yaml` configuration.
+### Render Deployment
 
-## Environment Variables
+For deploying to Render:
 
-Required:
-- `DATABASE_URL` - PostgreSQL connection string
-- `DISCORD_TOKEN` - Discord bot token
-- `DISCORD_CLIENT_ID` - Discord client ID
+1. Build Command:
+   ```
+   npm install && npm run db:push && npm run build
+   ```
 
-Optional:
-- `ROBLOX_COOKIE` - Roblox .ROBLOSECURITY cookie for enhanced verification
+2. Start Command:
+   ```
+   NODE_ENV=production node dist/server/index.js
+   ```
+
+3. Environment Variables:
+   - Set all required environment variables in the Render dashboard
+
+### Docker Deployment
+
+Alternatively, you can use the provided Dockerfile:
+
+```
+docker build -t verify-bot .
+docker run -p 5000:5000 --env-file .env verify-bot
+```
+
+## License
+
+MIT License
+
+## Contributors
+
+- joelikes8 - Creator and maintainer
