@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "start": "deno run --allow-net --allow-env --allow-read deno-deploy.ts",
+    "start:simple": "deno run --allow-net --allow-env --allow-read simple-deploy.ts"
+  },
+  "imports": {
+    "oak": "https://deno.land/x/oak@v12.6.1/mod.ts",
+    "discord.js": "npm:discord.js"
+  }
+}
